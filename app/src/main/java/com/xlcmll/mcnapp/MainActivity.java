@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         mWebView = new WebView(this);
-        mWebView.loadUrl("http://p.wechat.ac.cn/home/#/publish/new/aaa");
+        mWebView.loadUrl("http://p.wechat.ac.cn/home/#/user/new/aaa");
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
