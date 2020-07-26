@@ -65,9 +65,9 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     }
 
     private void getAccessToken(String code) {
-        String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx797a2d0621b870dc&secret=c4306d9079d1ea4de0e1d6d39caee859&code=" + code + "&grant_type=authorization_code";
+//        String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx797a2d0621b870dc&secret=c4306d9079d1ea4de0e1d6d39caee859&code=" + code + "&grant_type=authorization_code";
 //        String url = "https://api.weixin.qq.com/sns/oauth2/access_token";
-        String url = "http://xlcmll.top/wx/access_token?code="+code;
+        String url = "http://xlcmll.top/wx/access_token?code=" + code;
 
         OkHttpClient mOkHttpClient = new OkHttpClient();
 
@@ -76,6 +76,8 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 //.post(body)
                 .build();
         Call call = mOkHttpClient.newCall(request);
+        final Context context = this;
+
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -85,11 +87,14 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                String json = response.body().string();
-                Log.i("test", json);
+                String jsonStr = response.body().string();
+                Log.i("test", jsonStr);
                 try {
-                    JSONObject accessToken = new JSONObject(json);
-                    getUserInfo(accessToken.getString("access_token"), accessToken.getString("openid"));
+                    JSONObject json = new JSONObject(jsonStr);
+                    String jwt = json.getString("jwt");
+                    Intent intent = new Intent(context, WebviewActivity.class);
+                    intent.putExtra("jwt", jwt);
+                    startActivity(intent);
                 } catch (JSONException err) {
                     Log.i("Error", err.toString());
                 }
