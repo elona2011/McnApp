@@ -48,4 +48,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
     implementation "com.squareup.okhttp3:okhttp:4.8.0"
+    implementation 'com.bytedance.ies.ugc.aweme:opensdk-china-external:0.1.1.0'
+    implementation 'com.bytedance.ies.ugc.aweme:opensdk-common:0.1.1.0'
+    implementation 'com.github.delight-im:Android-AdvancedWebView:v3.0.0'
 }

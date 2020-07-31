@@ -10,11 +10,15 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.SyncStateContract;
 import android.view.KeyEvent;
 import android.view.Window;
 
+import com.bytedance.sdk.open.douyin.DouYinOpenApiFactory;
+import com.bytedance.sdk.open.douyin.DouYinOpenConfig;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelmsg.GetMessageFromWX;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
@@ -29,6 +33,18 @@ public class MainActivity extends AppCompatActivity {
 
     // IWXAPI 是第三方app和微信通信的openApi接口
     public static IWXAPI api;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        this.regToWx();
+        regToDy();
+
+        Intent intent = new Intent(this, AdWebviewActivity.class);
+        startActivity(intent);
+    }
 
     private void regToWx() {
         // 通过WXAPIFactory工厂，获取IWXAPI的实例
@@ -48,42 +64,8 @@ public class MainActivity extends AppCompatActivity {
         }, new IntentFilter(ConstantsAPI.ACTION_REFRESH_WXAPP));
     }
 
-//    class LoginPagerAdapter extends FragmentPagerAdapter {
-//        private ArrayList<Fragment> fragmentList = new ArrayList<>();
-//
-//        public LoginPagerAdapter(FragmentManager fm) {
-//            super(fm);
-//        }
-//
-//        @Override
-//        public Fragment getItem(int i) {
-//            return fragmentList.get(i);
-//        }
-//
-//        @Override
-//        public int getCount() {
-//            return fragmentList.size();
-//        }
-//
-//        void addFragmet(Fragment fragment) {
-//            fragmentList.add(fragment);
-//        }
-//    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-//        ViewPager viewPager = findViewById(R.id.viewPager);
-//
-//        LoginPagerAdapter pagerAdapter = new LoginPagerAdapter(getSupportFragmentManager());
-//        pagerAdapter.addFragmet(new LoginFragment());
-//        viewPager.setAdapter((pagerAdapter));
-
-        this.regToWx();
-
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
+    private void regToDy(){
+        String clientkey = "awsaw4rl6i1jfql7";
+        DouYinOpenApiFactory.init(new DouYinOpenConfig(clientkey));
     }
 }

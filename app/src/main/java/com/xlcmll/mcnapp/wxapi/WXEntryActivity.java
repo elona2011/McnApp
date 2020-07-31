@@ -3,8 +3,11 @@ package com.xlcmll.mcnapp.wxapi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -14,6 +17,7 @@ import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.xlcmll.mcnapp.AdWebviewActivity;
 import com.xlcmll.mcnapp.LoginActivity;
 import com.xlcmll.mcnapp.WebviewActivity;
 
@@ -82,6 +86,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("getAccessToken", "fail");
+                Toast.makeText(context, "getAccessToken fail", Toast.LENGTH_LONG).show();
                 finish();
             }
 
@@ -92,7 +97,12 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 try {
                     JSONObject json = new JSONObject(jsonStr);
                     String jwt = json.getString("jwt");
-                    Intent intent = new Intent(context, WebviewActivity.class);
+
+                    SharedPreferences.Editor editor = getSharedPreferences("login", MODE_PRIVATE).edit();
+                    editor.putString("jwt", jwt);
+                    editor.apply();
+
+                    Intent intent = new Intent(context, AdWebviewActivity.class);
                     intent.putExtra("jwt", jwt);
                     startActivity(intent);
                 } catch (JSONException err) {
@@ -103,7 +113,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 //                finish();
             }
         });
-        Log.i(TAG, "getAccessToken: start");
     }
 
     private void getUserInfo(String access_token, String openid) {

@@ -3,6 +3,7 @@ buildscript {
     repositories {
         google()
         jcenter()
+        maven { url 'https://dl.bintray.com/aweme-open-sdk-team/public' }
     }
     dependencies {
         classpath "com.android.tools.build:gradle:4.0.1"
@@ -16,6 +17,8 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven { url 'https://dl.bintray.com/aweme-open-sdk-team/public' }
+        maven { url "https://jitpack.io" }
     }
 }
 
